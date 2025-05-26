@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RESPONSE STREAMING</title>
+</head>
+<body>
+    <h1>Response streaming</h1>
+    <button onclick="iniciarStreaming()">Iniciar</button>
+
+    <pre id="output" style="background: #eee; padding: 10px;"></pre>
+
+    <script>
+        function iniciarStreaming() {
+            const output = document.getElementById("output");
+            fetch("?stream=1")
+                .then(response => {
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder("utf-8");
+
+                    function leerChunk() {
+                        reader.read().then(({ done, value }) => {
+                            output.textContent += decoder.decode(value, { stream: true });
+                            leerChunk(); 
+                        });
+                    }
+
+                    leerChunk();
+                })
+                .catch(error => {
+                    output.textContent += "\nError: " + error;
+                });
+        }
+    </script>
+</body>
+</html>

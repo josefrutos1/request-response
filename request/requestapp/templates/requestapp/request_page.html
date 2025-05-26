@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Saludo</title>
+</head>
+<body>
+  <h2>Estas usando HttpRequest</h2>
+  <form method="POST">
+    {% csrf_token %}
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <button type="submit">Enviar</button>
+  </form>
+    <h2>Hola, {{ nombre }}</h2>
+</body>
+</html>
